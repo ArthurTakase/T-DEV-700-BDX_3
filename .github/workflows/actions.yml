@@ -5,7 +5,13 @@ env:
   MIRROR_URL: "git@github.com:EpitechMscProPromo2025/T-DEV-700-BDX_3.git"
 
 jobs:
+  clean_files:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Remove .DS_Store files
+        run: find . -name '.DS_Store' -type f -delete
   push_to_mirror:
+    needs: [clean_files]
     if: ${{ github.event_name == 'push' }}
     runs-on: ubuntu-latest
     steps:

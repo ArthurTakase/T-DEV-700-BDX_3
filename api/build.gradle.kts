@@ -26,11 +26,11 @@ dependencies {
     // Use the Kotlin JDK 8 standard library.
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
-    // (Simple Logging Facade for Java) provides a Java logging API.
-    implementation ("org.slf4j:slf4j-simple:1.7.31")
-
     // Javalin
     implementation("io.javalin:javalin:4.0.0")
+
+    // (Simple Logging Facade for Java) provides a Java logging API.
+    implementation ("org.slf4j:slf4j-simple:1.7.31")
 
     // This dependency is used by the application.
     implementation("com.google.guava:guava:30.1.1-jre")
@@ -44,5 +44,5 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClass.set("api.AppKt")
+    mainClass.set("cashmanager.main.AppKt")
 }

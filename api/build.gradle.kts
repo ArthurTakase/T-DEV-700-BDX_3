@@ -8,7 +8,7 @@
 
 plugins {
     // Apply the org.jetbrains.kotlin.jvm Plugin to add support for Kotlin.
-    id("org.jetbrains.kotlin.jvm") version "1.5.0"
+    id("org.jetbrains.kotlin.jvm") version "1.7.0"
 
     // Apply the application plugin to add support for building a CLI application in Java.
     application
@@ -27,10 +27,10 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
     // Javalin
-    implementation("io.javalin:javalin:4.0.0")
+    implementation("io.javalin:javalin:5.6.3")
 
     // (Simple Logging Facade for Java) provides a Java logging API.
-    implementation ("org.slf4j:slf4j-simple:1.7.31")
+    implementation ("org.slf4j:slf4j-simple:2.0.9")
 
     // This dependency is used by the application.
     implementation("com.google.guava:guava:30.1.1-jre")

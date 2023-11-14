@@ -1,5 +1,5 @@
 # Utilisez une image de base Java
-FROM openjdk:11-jdk
+FROM openjdk:latest
 
 COPY . /app
 

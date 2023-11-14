@@ -9,6 +9,6 @@ WORKDIR /app
 
 RUN ./gradlew build
 
-EXPOSE 4000
+EXPOSE 8080
 
 CMD ["./gradlew", "run"]

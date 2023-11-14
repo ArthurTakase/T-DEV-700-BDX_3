@@ -1,5 +1,7 @@
 # Utilisez une image de base Java
-FROM openjdk:latest
+FROM openjdk:22-slim-bullseye
+
+RUN apt-get update && apt-get install -y findutils
 
 COPY . /app
 

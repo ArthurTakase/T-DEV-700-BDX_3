@@ -7,6 +7,10 @@ android {
     namespace = "com.example.test"
     compileSdk = 34
 
+    packagingOptions {
+        pickFirst("META-INF/LICENSE.md")
+    }
+
     defaultConfig {
         applicationId = "com.example.test"
         minSdk = 31
@@ -25,7 +29,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }

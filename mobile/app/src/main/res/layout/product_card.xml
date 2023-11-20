@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:layout_margin="10dp"
+    android:background="@drawable/radius"
+    android:backgroundTint="#D0D0F8"
+    tools:context=".MainActivity2">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="208dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/radius"
+        android:scaleType="centerCrop"
+        android:src="@drawable/theau"
+        android:id="@+id/product_image"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Theau (occasion, très peu utilisé)"
+        android:layout_margin="10dp"
+        android:layout_marginBottom="0dp"
+        android:justificationMode="inter_word"
+        android:id="@+id/product_name"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Description :"
+        android:layout_marginHorizontal="10dp"
+        android:justificationMode="inter_word"
+        android:id="@+id/product_description"
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@drawable/radius"
+        android:backgroundTint="#8593D8"
+        android:textColor="@color/white"
+        android:layout_margin="10dp"
+        android:text="39,99€ - Add to cart"
+        android:id="@+id/product_price"
+        />
+</LinearLayout>

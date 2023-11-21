@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00000000"
+    android:paddingTop="10dp"
+    android:paddingBottom="60dp"
+    tools:context=".Store">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Products"
+                android:gravity="center"
+                android:textSize="25sp"
+                />
+
+            <!-- TODO: Update blank fragment layout -->
+            <include layout="@layout/product_card" />
+            <include layout="@layout/product_card" />
+            <include layout="@layout/product_card" />
+            <include layout="@layout/product_card" />
+            <include layout="@layout/product_card" />
+        </LinearLayout>
+    </ScrollView>
+
+</FrameLayout>

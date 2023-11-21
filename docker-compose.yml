@@ -1,11 +1,25 @@
 version: "3.8"
 
 services:
+  mobile_client:
+    container_name: mobile_container
+    build:
+      context: ./mobile
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api_client
+
   api_client:
     container_name: api_container
     build:
       context: ./api
       dockerfile: Dockerfile
+    volumes:
+      - .:/app
     ports:
       - "8080:8080"
     depends_on:

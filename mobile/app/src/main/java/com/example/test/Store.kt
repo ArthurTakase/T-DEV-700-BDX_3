@@ -1,59 +1,47 @@
 package com.example.test
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.fragment.app.Fragment
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import java.io.InputStreamReader
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [Store.newInstance] factory method to
- * create an instance of this fragment.
- */
 class Store : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_store, container, false)
+        val view = inflater.inflate(R.layout.fragment_store, container, false)
+
+        val mainLayout = view.findViewById<LinearLayout>(R.id.main_layout)
+
+        val products = readProductsFromJson()
+
+        for (product in products) {
+            val productItem = inflater.inflate(R.layout.product_card, mainLayout, false)
+            productItem.findViewById<TextView>(R.id.product_name).text = product.name
+            productItem.findViewById<TextView>(R.id.product_price).text = "$${product.price} - ADD TO CART"
+            productItem.findViewById<TextView>(R.id.product_description).text = product.description
+            val imageResId = resources.getIdentifier(product.image, "drawable", requireActivity().packageName)
+            productItem.findViewById<ImageView>(R.id.product_image).setImageResource(imageResId)
+
+            mainLayout.addView(productItem)
+        }
+
+        return view
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment Store.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            Store().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    private fun readProductsFromJson(): Array<Product> {
+        val inputStream = requireContext().assets.open("products.json")
+        val json = InputStreamReader(inputStream).readText()
+        val gson = Gson()
+        val productListType = object : TypeToken<Array<Product>>() {}.type
+        return gson.fromJson(json, productListType)
     }
 }

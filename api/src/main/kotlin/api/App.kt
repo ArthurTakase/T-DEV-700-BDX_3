@@ -3,9 +3,11 @@
  */
 package cashmanager.main
 
+import Initializer
 import io.javalin.Javalin
 
 fun main() {
+    val init = Initializer()
     val app = Javalin.create().start(8080)
     app.get("/") { ctx -> ctx.result("Hello World") }
 }

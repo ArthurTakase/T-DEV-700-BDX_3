@@ -2,9 +2,11 @@ package com.example.test
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -21,8 +23,11 @@ class Store : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_store, container, false)
 
-        val mainLayout = view.findViewById<LinearLayout>(R.id.main_layout)
+        val mainLayout = view.findViewById<LinearLayout>(R.id.store_layout)
         val products = readProductsFromJson()
+
+        // lie le fragment Cart.kt à l'activité principale
+        val cartFragment = Cart()
 
         products.forEach { product ->
             inflater.inflate(R.layout.product_card, mainLayout, false).apply {
@@ -31,6 +36,12 @@ class Store : Fragment() {
                 findViewById<TextView>(R.id.product_description).text = product.description
                 val imageResId = resources.getIdentifier(product.image, "drawable", requireActivity().packageName)
                 findViewById<ImageView>(R.id.product_image).setImageResource(imageResId)
+
+                findViewById<Button>(R.id.product_price).setOnClickListener {
+                    cartFragment.addToCart(product)
+                    Log.d("Cart", "Added ${product.name} to cart")
+                }
+
                 mainLayout.addView(this)
             }
         }

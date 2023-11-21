@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:layout_marginVertical="5dp"
+    android:layout_marginHorizontal="10dp"
+    android:padding="10dp"
+    android:background="@drawable/radius"
+    android:backgroundTint="#000000">
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@drawable/radius"
+        android:scaleType="centerCrop"
+        android:backgroundTint="#C3C3C3"
+        android:src="@drawable/theau"
+        android:id="@+id/product_image"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginLeft="8dp"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Theau (occasion, très peu utilisé)"
+
+            android:layout_marginBottom="0dp"
+            android:id="@+id/product_name"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="#C3C3C3"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Description :"
+            android:justificationMode="inter_word"
+            android:id="@+id/product_description"
+            android:textColor="#C3C3C3"
+            />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="$10"
+                android:justificationMode="inter_word"
+                android:id="@+id/product_price"
+                android:textColor="#F1F1F1"
+                android:textStyle="bold"
+                />
+
+            <TextView
+                android:id="@+id/product_nb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:justificationMode="inter_word"
+                android:text="x100"
+                android:textColor="#737373" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

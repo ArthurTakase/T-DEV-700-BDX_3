@@ -1,5 +1,6 @@
 package com.example.test
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import com.google.gson.reflect.TypeToken
 import java.io.InputStreamReader
 
 class Store : Fragment() {
+    @SuppressLint("SetTextI18n", "DiscouragedApi")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -20,18 +22,17 @@ class Store : Fragment() {
         val view = inflater.inflate(R.layout.fragment_store, container, false)
 
         val mainLayout = view.findViewById<LinearLayout>(R.id.main_layout)
-
         val products = readProductsFromJson()
 
-        for (product in products) {
-            val productItem = inflater.inflate(R.layout.product_card, mainLayout, false)
-            productItem.findViewById<TextView>(R.id.product_name).text = product.name
-            productItem.findViewById<TextView>(R.id.product_price).text = "$${product.price} - ADD TO CART"
-            productItem.findViewById<TextView>(R.id.product_description).text = product.description
-            val imageResId = resources.getIdentifier(product.image, "drawable", requireActivity().packageName)
-            productItem.findViewById<ImageView>(R.id.product_image).setImageResource(imageResId)
-
-            mainLayout.addView(productItem)
+        products.forEach { product ->
+            inflater.inflate(R.layout.product_card, mainLayout, false).apply {
+                findViewById<TextView>(R.id.product_name).text = product.name
+                findViewById<TextView>(R.id.product_price).text = "$${product.price} - ADD TO CART"
+                findViewById<TextView>(R.id.product_description).text = product.description
+                val imageResId = resources.getIdentifier(product.image, "drawable", requireActivity().packageName)
+                findViewById<ImageView>(R.id.product_image).setImageResource(imageResId)
+                mainLayout.addView(this)
+            }
         }
 
         return view
@@ -42,6 +43,7 @@ class Store : Fragment() {
         val json = InputStreamReader(inputStream).readText()
         val gson = Gson()
         val productListType = object : TypeToken<Array<Product>>() {}.type
+        inputStream.close()
         return gson.fromJson(json, productListType)
     }
 }

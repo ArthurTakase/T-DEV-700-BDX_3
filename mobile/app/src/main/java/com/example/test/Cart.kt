@@ -23,6 +23,12 @@ class Cart : Fragment() {
         return cartProducts.sumBy { it.getTotalPrice() }
     }
 
+    fun printCart() {
+        cartProducts.forEach {
+            println("${it.product.name} - ${it.quantity} - ${it.getTotalPrice()}")
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -32,7 +38,12 @@ class Cart : Fragment() {
     }
 
     companion object {
+        private var instance: Cart? = null
         @JvmStatic
-        fun newInstance() = Cart()
+        fun getInstance(): Cart {
+            if (instance == null)
+                instance = Cart()
+            return instance!!
+        }
     }
 }

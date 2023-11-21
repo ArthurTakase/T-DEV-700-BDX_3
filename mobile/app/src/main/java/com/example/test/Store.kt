@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.io.InputStreamReader
+import com.example.test.Cart
 
 class Store : Fragment() {
     @SuppressLint("SetTextI18n", "DiscouragedApi")
@@ -25,9 +26,7 @@ class Store : Fragment() {
 
         val mainLayout = view.findViewById<LinearLayout>(R.id.store_layout)
         val products = readProductsFromJson()
-
-        // lie le fragment Cart.kt à l'activité principale
-        val cartFragment = Cart()
+        val cartFragment = Cart.getInstance()
 
         products.forEach { product ->
             inflater.inflate(R.layout.product_card, mainLayout, false).apply {
@@ -40,6 +39,7 @@ class Store : Fragment() {
                 findViewById<Button>(R.id.product_price).setOnClickListener {
                     cartFragment.addToCart(product)
                     Log.d("Cart", "Added ${product.name} to cart")
+                    cartFragment.printCart()
                 }
 
                 mainLayout.addView(this)

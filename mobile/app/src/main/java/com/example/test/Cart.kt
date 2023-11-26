@@ -1,49 +1,49 @@
 package com.example.test
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
 
 class Cart : Fragment() {
-    // create an array of CardProduct objects
-    var cartProducts: MutableList<CardProduct> = mutableListOf()
+    private val json = JSONTools()
 
-    fun addToCart(product: Product) {
-        val existingProduct = cartProducts.find { it.product.name == product.name }
-        if (existingProduct != null) {
-            existingProduct.quantity++
-        } else {
-            cartProducts.add(CardProduct(product, 1))
-        }
+    @SuppressLint("DiscouragedApi", "SetTextI18n")
+    private fun createProductCard(product: CartProduct, layout: LinearLayout): View? {
+        val inflater = LayoutInflater.from(context)
+        val view = inflater.inflate(R.layout.product_card_cart, layout, false)
+        view.tag = product.product.name
+
+        view.findViewById<TextView>(R.id.product_name).text = product.product.name
+        view.findViewById<TextView>(R.id.product_price).text = "$${product.product.price}"
+        view.findViewById<TextView>(R.id.product_nb).text = "x${product.quantity}"
+        view.findViewById<TextView>(R.id.product_description).text = product.product.description
+        val imageResId = resources.getIdentifier(product.product.image, "drawable", requireActivity().packageName)
+        view.findViewById<ImageView>(R.id.product_image).setImageResource(imageResId)
+
+        return view
     }
 
-    fun getTotalPrice(): Int {
-        return cartProducts.sumBy { it.getTotalPrice() }
-    }
+    override fun onResume() {
+        super.onResume()
+        val layout = view?.findViewById<LinearLayout>(R.id.cart_layout)
+        val cart = json.readCartJson(requireContext())
+        layout?.removeAllViews()
 
-    fun printCart() {
-        cartProducts.forEach {
-            println("${it.product.name} - ${it.quantity} - ${it.getTotalPrice()}")
-        }
+        cart.forEach { product -> createProductCard(product, layout!!) }
+
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_cart, container, false)
-    }
-
-    companion object {
-        private var instance: Cart? = null
-        @JvmStatic
-        fun getInstance(): Cart {
-            if (instance == null)
-                instance = Cart()
-            return instance!!
-        }
     }
 }

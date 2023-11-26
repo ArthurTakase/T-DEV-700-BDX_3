@@ -2,7 +2,6 @@ package com.example.test
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,12 +10,10 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import java.io.InputStreamReader
-import com.example.test.Cart
 
 class Store : Fragment() {
+    private val json = JSONTools()
+
     @SuppressLint("SetTextI18n", "DiscouragedApi")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,9 +21,10 @@ class Store : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_store, container, false)
 
+        val fd = requireContext().assets.open("products.json")
+        val products: Array<Product> = json.readProductsJson(fd)
+
         val mainLayout = view.findViewById<LinearLayout>(R.id.store_layout)
-        val products = readProductsFromJson()
-        val cartFragment = Cart.getInstance()
 
         products.forEach { product ->
             inflater.inflate(R.layout.product_card, mainLayout, false).apply {
@@ -37,9 +35,7 @@ class Store : Fragment() {
                 findViewById<ImageView>(R.id.product_image).setImageResource(imageResId)
 
                 findViewById<Button>(R.id.product_price).setOnClickListener {
-                    cartFragment.addToCart(product)
-                    Log.d("Cart", "Added ${product.name} to cart")
-                    cartFragment.printCart()
+                    json.addProductToCart(requireContext(), product)
                 }
 
                 mainLayout.addView(this)
@@ -47,14 +43,5 @@ class Store : Fragment() {
         }
 
         return view
-    }
-
-    private fun readProductsFromJson(): Array<Product> {
-        val inputStream = requireContext().assets.open("products.json")
-        val json = InputStreamReader(inputStream).readText()
-        val gson = Gson()
-        val productListType = object : TypeToken<Array<Product>>() {}.type
-        inputStream.close()
-        return gson.fromJson(json, productListType)
     }
 }

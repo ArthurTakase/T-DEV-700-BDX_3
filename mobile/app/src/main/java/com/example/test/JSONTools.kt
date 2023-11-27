@@ -52,4 +52,13 @@ class JSONTools() {
         }
         writeCartJson(context, cart)
     }
+
+    fun removeProductFromCart(context: Context, product: Product) {
+        val cart = readCartJson(context)
+        val existingProduct = cart.find { it.product.name == product.name }
+        if (existingProduct != null) {
+            cart.remove(existingProduct)
+        }
+        writeCartJson(context, cart)
+    }
 }

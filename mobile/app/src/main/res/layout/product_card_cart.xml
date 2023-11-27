@@ -13,8 +13,8 @@
     android:backgroundTint="#000000">
 
     <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
         android:background="@drawable/radius"
         android:scaleType="centerCrop"
         android:backgroundTint="#C3C3C3"
@@ -28,17 +28,36 @@
         android:orientation="vertical"
         android:layout_marginLeft="8dp"
         >
-        <TextView
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Theau (occasion, très peu utilisé)"
+            android:orientation="horizontal"
+            >
 
-            android:layout_marginBottom="0dp"
-            android:id="@+id/product_name"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:textColor="#C3C3C3"
-            />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Theau"
+                android:layout_marginBottom="0dp"
+                android:id="@+id/product_name"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:textColor="#C3C3C3"
+                />
+
+            <Button
+                android:id="@+id/delete_button"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/radius"
+                android:text="❌"
+                />
+
+        </LinearLayout>
+
+
 
         <TextView
             android:layout_width="match_parent"
@@ -77,5 +96,15 @@
 
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/product_total"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Total : $1000"
+            android:gravity="right"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            />
     </LinearLayout>
+
 </LinearLayout>

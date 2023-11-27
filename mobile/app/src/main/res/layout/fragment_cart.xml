@@ -27,4 +27,17 @@
         </LinearLayout>
     </ScrollView>
 
+    <Button
+        android:id="@+id/checkout_button"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="🛒 $500"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:layout_marginHorizontal="5dp"
+        android:background="@drawable/radius"
+        android:backgroundTint="@color/white"
+        android:layout_gravity="bottom"
+        />
+
 </FrameLayout>

@@ -61,4 +61,42 @@ class JSONTools() {
         }
         writeCartJson(context, cart)
     }
+
+    data class User(val email: String, val server: String)
+
+    public fun readUserJson(context: Context): User {
+        val gson = Gson()
+        val userFile = File(context.filesDir, "user.json")
+
+        if (!userFile.exists()) {
+            userFile.createNewFile()
+            writeUserJson(context, User("", ""))
+        }
+
+        val json = userFile.bufferedReader().use { it.readText() }
+        val userType = object : TypeToken<User>() {}.type
+        return gson.fromJson(json, userType)
+    }
+
+    private fun writeUserJson(context: Context, user: User) {
+        val gson = Gson()
+        val userJson = gson.toJson(user)
+
+        val userFile = File(context.filesDir, "user.json")
+        if (!userFile.exists()) userFile.createNewFile()
+
+        context.openFileOutput("user.json", Context.MODE_PRIVATE).use { it.write(userJson.toByteArray()) }
+    }
+
+    fun addUserEmail(context: Context, email: String) {
+        val user = readUserJson(context)
+        val updatedUser = user.copy(email = email)
+        writeUserJson(context, updatedUser)
+    }
+
+    fun addUserServer(context: Context, server: String) {
+        val user = readUserJson(context)
+        val updatedUser = user.copy(server = server)
+        writeUserJson(context, updatedUser)
+    }
 }

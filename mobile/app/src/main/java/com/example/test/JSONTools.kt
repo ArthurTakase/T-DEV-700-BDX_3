@@ -99,4 +99,10 @@ class JSONTools() {
         val updatedUser = user.copy(server = server)
         writeUserJson(context, updatedUser)
     }
+
+    fun emptyUserJson(context: Context) {
+        val user = readUserJson(context)
+        val updatedUser = user.copy(email = "", server = "")
+        writeUserJson(context, updatedUser)
+    }
 }

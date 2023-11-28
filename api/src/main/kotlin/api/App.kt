@@ -10,5 +10,9 @@ fun main() {
     print("Hello dapdazpddazd")
     val init = Initializer()
     val app = Javalin.create().start(8080)
-    app.get("/") { ctx -> ctx.result("Hello World") }
+
+    print(init.webHandler)
+    app.routes {
+        app.get("/") { ctx -> init.webHandler.exec(ctx) }
+    }
 }

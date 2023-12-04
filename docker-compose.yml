@@ -32,5 +32,17 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  adminer:
+    image: adminer
+    restart: no
+    ports:
+      - 8282:8282
+    command:
+      - "php"
+      - "-S"
+      - "[::]:8282"
+      - "-t"
+      - "/var/www/html"
+
 volumes:
   postgres_data:

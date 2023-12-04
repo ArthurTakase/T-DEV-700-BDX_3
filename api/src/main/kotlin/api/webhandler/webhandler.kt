@@ -5,6 +5,7 @@ abstract class WebHandler() {
         try {
             call(ctx)
         } catch (e: Exception) {
+            println(e)
             ctx.status(501)
         }
     }

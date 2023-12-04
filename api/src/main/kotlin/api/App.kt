@@ -7,12 +7,10 @@ import Initializer
 import io.javalin.Javalin
 
 fun main() {
-    print("Hello dapdazpddazd")
     val init = Initializer()
     val app = Javalin.create().start(8080)
 
-    print(init.webHandler)
     app.routes {
-        app.get("/") { ctx -> init.webHandler.exec(ctx) }
+        app.get("/") { ctx -> init.userIndexWebHandler.exec(ctx) }
     }
 }

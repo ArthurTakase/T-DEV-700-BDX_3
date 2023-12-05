@@ -8,7 +8,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:ignore="UselessParent">
         <LinearLayout
             android:id="@+id/store_layout"
             android:layout_width="match_parent"
@@ -22,7 +23,7 @@
                 android:text="Products"
                 android:gravity="center"
                 android:textSize="25sp"
-                />
+                tools:ignore="HardcodedText" />
         </LinearLayout>
     </ScrollView>
 

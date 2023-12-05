@@ -1,9 +1,9 @@
 package com.example.test
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +11,8 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.fragment.app.Fragment
+
 
 class Cart : Fragment() {
     private val json = JSONTools()
@@ -18,11 +20,19 @@ class Cart : Fragment() {
     @SuppressLint("DiscouragedApi", "SetTextI18n")
     private fun createProductCard(product: CartProduct) {
         val layout = view?.findViewById<LinearLayout>(R.id.cart_layout)
-        Log.d("Cart", "1")
         val inflater = LayoutInflater.from(context)
-        Log.d("Cart", "2")
+
+        // if the product is already in the cart, we just increment the quantity
+        if (layout?.findViewWithTag<View>(product.product.name) != null) {
+            val view = layout.findViewWithTag<View>(product.product.name)
+            val quantity = view.findViewById<TextView>(R.id.product_nb)
+            val total = view.findViewById<TextView>(R.id.product_total)
+            quantity.text = "x${product.quantity}"
+            total.text = "$${product.getTotalPrice()}"
+            return
+        }
+
         val view = inflater.inflate(R.layout.product_card_cart, layout, false)
-        Log.d("Cart", "3")
         view.tag = product.product.name
 
         view.findViewById<TextView>(R.id.product_name).text = product.product.name
@@ -36,6 +46,7 @@ class Cart : Fragment() {
 
         view.findViewById<Button>(R.id.delete_button).setOnClickListener {
             json.removeProductFromCart(requireContext(), product.product)
+            layout?.removeView(view)
             onResume()
         }
 
@@ -51,19 +62,14 @@ class Cart : Fragment() {
         return total
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onResume() {
         super.onResume()
-        val layout = view?.findViewById<LinearLayout>(R.id.cart_layout)
         val cart = json.readCartJson(requireContext())
 
-        layout?.removeAllViews()
+        cart.forEach { product -> createProductCard(product) }
 
-        cart.forEach { product ->
-            Log.d("Cart", "Product: ${product.product.name}, Quantity: ${product.quantity}")
-            createProductCard(product)
-        }
-
-        view?.findViewById<Button>(R.id.checkout_button)?.text = "\uD83D\uDED2 $${totalCartPrice()}"
+        view?.findViewById<Button>(R.id.checkout_button)?.text = "\uD83D\uDCB3 $${totalCartPrice()}"
 
     }
 
@@ -71,6 +77,16 @@ class Cart : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_cart, container, false)
+        val view = inflater.inflate(R.layout.fragment_cart, container, false)
+        val context = requireContext()
+
+        val checkout = view?.findViewById<Button>(R.id.checkout_button)
+        checkout?.setOnClickListener {
+            if (totalCartPrice() <= 0) return@setOnClickListener
+            val intent = Intent(context, NFC::class.java)
+            startActivity(intent)
+        }
+
+        return view
     }
 }

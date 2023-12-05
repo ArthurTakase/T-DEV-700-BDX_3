@@ -8,7 +8,9 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="65dp"
+        >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -22,7 +24,7 @@
                 android:text="Cart"
                 android:gravity="center"
                 android:textSize="25sp"
-                />
+                tools:ignore="HardcodedText" />
 
         </LinearLayout>
     </ScrollView>
@@ -30,13 +32,14 @@
     <Button
         android:id="@+id/checkout_button"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="🛒 $500"
-        android:textColor="@color/black"
+        android:layout_height="40dp"
+        android:text="💳 $500"
+        android:textColor="@color/white"
         android:textSize="20sp"
-        android:layout_marginHorizontal="5dp"
+        android:layout_marginHorizontal="50dp"
+        android:layout_marginBottom="15dp"
         android:background="@drawable/radius"
-        android:backgroundTint="@color/white"
+        android:backgroundTint="#AD606060"
         android:layout_gravity="bottom"
         />
 

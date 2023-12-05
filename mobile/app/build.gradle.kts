@@ -51,6 +51,7 @@ android {
 }
 
 dependencies {
+    implementation("com.github.yuriy-budiyev:code-scanner:2.3.0")
     implementation("com.google.code.gson:gson:2.8.9")
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")

@@ -6,11 +6,13 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
-import com.example.test.MainActivity
+import kotlinx.coroutines.*
+import com.example.test.APIService
 
 class MainActivity2 : AppCompatActivity() {
 
     private lateinit var jsonTools: JSONTools
+    private val apiService = APIService()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,10 +39,32 @@ class MainActivity2 : AppCompatActivity() {
             jsonTools.addUserEmail(this, email)
             jsonTools.addUserServer(this, server)
 
+            apiService.getApi("https://pokeapi.co/api/v2/pokemon/lickilicky", onSuccess = { response ->
+                Log.d("MainActivity2", "API Response: $response")
+            }, onError = { error ->
+                Log.e("MainActivity2", "API Error", error)
+            })
+
+            /*val customHeaders = mapOf("Authorization" to "Bearer your_token_here")
+            apiService.callApi(
+                urlString = "https://pokeapi.co/api/v2/pokemon/lickilicky",
+                headers = customHeaders,
+                onSuccess = { response ->
+                    Log.d("MainActivity2", "API Response with headers: $response")
+                },
+                onError = { error ->
+                    Log.e("MainActivity2", "API Error with headers", error)
+                }
+            ) avec arg*/
+
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()
         }
     }
-}
 
+    override fun onDestroy() {
+        super.onDestroy()
+        apiService.cancel() // Annuler les appels API lors de la destruction de l'activité
+    }
+}

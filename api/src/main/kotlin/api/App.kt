@@ -12,5 +12,6 @@ fun main() {
 
     app.routes {
         app.get("/") { ctx -> init.userIndexWebHandler.exec(ctx) }
+        app.post("/users") { ctx -> init.userCreateWebHandler.exec(ctx) }
     }
 }

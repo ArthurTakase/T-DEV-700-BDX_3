@@ -4,7 +4,7 @@ class UserIndexWebHandler(userRepository: UserRepository) : WebHandler() {
     val userRepository = userRepository
 
     override fun call(ctx: Context) {
-        print(userRepository)
+        println(userRepository)
         userRepository.all()
         ctx.result("Hello world from user!!!!!!!!!!!")
     }

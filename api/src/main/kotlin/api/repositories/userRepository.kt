@@ -1,5 +1,4 @@
 
-import java.time.OffsetDateTime
 
 class UserRepository(database: Database) {
     private val database = database
@@ -7,16 +6,10 @@ class UserRepository(database: Database) {
     init {}
 
     fun all(): List<User> {
-        val result = database.execQuery("select * from USERS").get()
+        val result = database.execQuery("SELECT * FROM USERS").get()
         val users =
             result.rows.map { row ->
-                UserParser(
-                    id = row.get("id") as Int,
-                    name = row.get("name") as String,
-                    email = row.get("email") as String,
-                    created_at = row.get("created_at") as OffsetDateTime,
-                    updated_at = row.get("updated_at") as OffsetDateTime,
-                ).parse()
+                UserParser(row).parse()
             }
         println(users)
         return users
@@ -37,13 +30,7 @@ class UserRepository(database: Database) {
 
         val user =
             result.rows.map { row ->
-                UserParser(
-                    id = row.get("id") as Int,
-                    name = row.get("name") as String,
-                    email = row.get("email") as String,
-                    created_at = row.get("created_at") as OffsetDateTime,
-                    updated_at = row.get("updated_at") as OffsetDateTime,
-                ).parse()
+                UserParser(row).parse()
             }.firstOrNull()
         return user
     }

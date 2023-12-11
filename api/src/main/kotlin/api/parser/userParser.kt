@@ -1,16 +1,18 @@
 
 
+import com.github.jasync.sql.db.RowData
 import java.time.OffsetDateTime
 
-class UserParser(val id: Int, val name: String, val email: String, val created_at: OffsetDateTime, val updated_at: OffsetDateTime)
-{
+class UserParser(row: RowData) {
+    val row = row
+
     fun parse(): User {
         return User(
-            id = id,
-            name = name,
-            email = email,
-            created_at = created_at,
-            updated_at = updated_at
+            id = row.get("id") as Int,
+            name = row.get("name") as String,
+            email = row.get("email") as String,
+            created_at = row.get("created_at") as OffsetDateTime,
+            updated_at = row.get("updated_at") as OffsetDateTime,
         )
     }
 }

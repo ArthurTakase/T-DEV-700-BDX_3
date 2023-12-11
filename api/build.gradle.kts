@@ -40,6 +40,10 @@ dependencies {
     // This dependency is used by the application.
     implementation("com.google.guava:guava:30.1.1-jre")
 
+    // Jackson
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.16.+")
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
+
     // postgresql
     implementation("com.github.jasync-sql:jasync-postgresql:2.2.0")
 

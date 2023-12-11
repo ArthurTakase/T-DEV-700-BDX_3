@@ -11,6 +11,8 @@ fun main() {
     val app = Javalin.create().start(8080)
 
     app.routes {
-        app.get("/") { ctx -> init.userIndexWebHandler.exec(ctx) }
+        app.get("/users") { ctx -> init.userIndexWebHandler.exec(ctx) }
+        app.post("/users") { ctx -> init.userCreateWebHandler.exec(ctx) }
+        app.post("/hasmoney/{id}") { ctx -> init.accountHasMoneyWebHandler.exec(ctx) }
     }
 }

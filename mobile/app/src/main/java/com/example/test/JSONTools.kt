@@ -42,6 +42,11 @@ class JSONTools() {
         outputStream.close()
     }
 
+    fun emptyCartJson(context: Context) {
+        val cart = mutableListOf<CartProduct>()
+        writeCartJson(context, cart)
+    }
+
     fun addProductToCart(context: Context, product: Product) {
         val cart = readCartJson(context)
         val existingProduct = cart.find { it.product.name == product.name }
@@ -104,5 +109,44 @@ class JSONTools() {
         val user = readUserJson(context)
         val updatedUser = user.copy(email = "", server = "")
         writeUserJson(context, updatedUser)
+    }
+
+    fun addCashJson(context: Context, cash: Cash) {
+        val gson = Gson()
+        val cashJson = gson.toJson(cash)
+
+        val cashFile = File(context.filesDir, "cash.json")
+        if (!cashFile.exists()) cashFile.createNewFile()
+
+        context.openFileOutput("cash.json", Context.MODE_PRIVATE).use { it.write(cashJson.toByteArray()) }
+    }
+
+    fun readCashJson(context: Context): Cash {
+        val gson = Gson()
+        val cashFile = File(context.filesDir, "cash.json")
+
+        if (!cashFile.exists()) {
+            cashFile.createNewFile()
+            writeCashJson(context, Cash("", "", null))
+        }
+
+        val json = cashFile.bufferedReader().use { it.readText() }
+        val cashType = object : TypeToken<Cash>() {}.type
+        return gson.fromJson(json, cashType)
+    }
+
+    private fun writeCashJson(context: Context, cash: Cash) {
+        val gson = Gson()
+        val cashJson = gson.toJson(cash)
+
+        val cashFile = File(context.filesDir, "cash.json")
+        if (!cashFile.exists()) cashFile.createNewFile()
+
+        context.openFileOutput("cash.json", Context.MODE_PRIVATE).use { it.write(cashJson.toByteArray()) }
+    }
+
+    fun emptyCashJson(context: Context) {
+        val cash = readCashJson(context)
+        writeCashJson(context, Cash("", "", null))
     }
 }

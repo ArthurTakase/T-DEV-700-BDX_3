@@ -4,14 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NFC">
+    android:id="@+id/pay_content"
+    tools:context=".Pay">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Please scan your NFC tag"
-        android:id="@+id/nfc_content"
+        android:layout_gravity="center"
         android:gravity="center"
-        />
+        android:id="@+id/pay_text"
+        android:text="Paiement in progress..." />
 
 </LinearLayout>

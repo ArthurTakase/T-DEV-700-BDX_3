@@ -22,6 +22,7 @@ class NFC : AppCompatActivity() {
     private var writeMode: Boolean = false
     private var myTag: Tag? = null
     private var nfcTools: NFCTools = NFCTools()
+    private var json: JSONTools = JSONTools()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,8 +65,11 @@ class NFC : AppCompatActivity() {
             val tagN: Parcelable? = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG)
             try {
                 val data: Cash = nfcTools.extractDataMemory(intent)
-                jsonTextFront!!.text = "NFC Tag: " + data.accountName + " // " + data.accountNumber
-                // lancer le paiement ici
+                val cart = json.readCartJson(this)
+                val total = cart.sumOf { it.getTotalPrice() }
+                data.amount = total
+                json.addCashJson(this, data)
+                startActivity(Intent(this, Pay::class.java))
             } catch (e: Exception) {
                 Log.d("NFC", "readFromIntent: $e")
                 jsonTextFront!!.text = "Cannot read NFC tag"

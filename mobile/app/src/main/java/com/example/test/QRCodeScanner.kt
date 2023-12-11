@@ -1,5 +1,6 @@
 package com.example.test
 
+import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -13,12 +14,16 @@ import com.budiyev.android.codescanner.CodeScannerView
 import com.budiyev.android.codescanner.DecodeCallback
 import com.budiyev.android.codescanner.ErrorCallback
 import com.budiyev.android.codescanner.ScanMode
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 
 private const val CAMERA_REQUEST_CODE = 101
 
 class QRCodeScanner : AppCompatActivity() {
 
     private lateinit var codeScanner: CodeScanner
+    private var json: JSONTools = JSONTools()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_qrcode_scanner)
@@ -37,6 +42,12 @@ class QRCodeScanner : AppCompatActivity() {
         super.onPause()
     }
 
+    private fun extractCash(json: String): Cash {
+        val gson = Gson()
+        val cashType = object : TypeToken<Cash>() {}.type
+        return gson.fromJson(json, cashType)
+    }
+
     private fun codeScanner() {
         val scannerView = findViewById<CodeScannerView>(R.id.scanner_view)
         codeScanner = CodeScanner(this, scannerView)
@@ -51,7 +62,8 @@ class QRCodeScanner : AppCompatActivity() {
             runOnUiThread {
                 // find in view scan_text
                 val text = findViewById<TextView>(R.id.scan_text)
-                text.text = it.text
+                json.addCashJson(this, extractCash(it.text))
+                startActivity(Intent(this, Pay::class.java))
             }
         }
 

@@ -13,5 +13,6 @@ fun main() {
     app.routes {
         app.get("/users") { ctx -> init.userIndexWebHandler.exec(ctx) }
         app.post("/users") { ctx -> init.userCreateWebHandler.exec(ctx) }
+        app.post("/hasmoney/{id}") { ctx -> init.accountHasMoneyWebHandler.exec(ctx) }
     }
 }

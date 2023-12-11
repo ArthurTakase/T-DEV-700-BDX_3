@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Arthur",
+    "price": 10,
+    "description": "Le plus beau",
+    "image": "arthur"
+  },
+  {
+    "name": "Corentin",
+    "price": 100,
+    "description": "Presque le plus beau",
+    "image": "corentin"
+  },
+  {
+    "name": "Theau",
+    "price": 30,
+    "description": "Occasion, très peu utilisé",
+    "image": "theau"
+  },
+  {
+    "name": "Guillaume",
+    "price": 50,
+    "description": "Chat GPT",
+    "image": "guillaume"
+  },
+  {
+    "name": "Geoffrey",
+    "price": 42,
+    "description": "Une grosse merde",
+    "image": "geoffrey"
+  }
+]

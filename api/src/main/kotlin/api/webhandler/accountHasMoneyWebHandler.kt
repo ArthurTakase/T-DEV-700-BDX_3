@@ -12,6 +12,7 @@ class AccountHasMoneyWebHandler(val accountRepository: AccountRepository) : WebH
             ctx.status(404).json("Account not found")
         } else {
             if (amount < account.sold) {
+                accountRepository.purchase(id, amount)
                 ctx.status(200).json("ok")
             } else {
                 ctx.status(406)

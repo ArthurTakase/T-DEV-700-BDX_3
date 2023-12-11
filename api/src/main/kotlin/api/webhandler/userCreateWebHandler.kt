@@ -13,6 +13,8 @@ class UserCreateWebHandler(val userRepository: UserRepository) : WebHandler() {
         val email = userData.email
 
         if (name.isNullOrEmpty() || email.isNullOrEmpty()) {
+            ctx.status(400).json("Missing data")
+        } else {
             val user = userRepository.create(name, email)
 
             if (user != null) {
@@ -20,8 +22,6 @@ class UserCreateWebHandler(val userRepository: UserRepository) : WebHandler() {
             } else {
                 ctx.status(500).json("Error creating user")
             }
-        } else {
-            ctx.status(400).json("Missing data")
         }
     }
 }

@@ -15,6 +15,9 @@ import com.example.test.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityMainBinding
+    private val store: Store = Store()
+    private val cart: Cart = Cart()
+    private val settings: Settings = Settings()
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,9 +28,9 @@ class MainActivity : AppCompatActivity() {
 
         binding.bottomNav.setOnItemSelectedListener {
             when (it.itemId) {
-                R.id.store -> { replaceFragment(Store()); true }
-                R.id.cart -> { replaceFragment(Cart()); true }
-                R.id.settings -> { replaceFragment(Settings()); true }
+                R.id.store -> { replaceFragment(store); true }
+                R.id.cart -> { replaceFragment(cart); true }
+                R.id.settings -> { replaceFragment(settings); true }
                 else -> false
 
             }

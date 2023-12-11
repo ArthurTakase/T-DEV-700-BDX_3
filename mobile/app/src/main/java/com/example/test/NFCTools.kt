@@ -17,11 +17,6 @@ class NFCTools {
         return inArray.joinToString("") { "%02X".format(it) }
     }
 
-    private fun getDec(bytes: ByteArray): Long =
-        bytes.foldRightIndexed(0L) { index, byte, result ->
-            result + ((byte.toLong() and 0xFF) shl (index * 8))
-    }
-
     fun extractDataMemory(intent: Intent): Cash {
         val tag = intent.getParcelableExtra<Parcelable>(NfcAdapter.EXTRA_TAG) as Tag
         val mifareTag = MifareClassic.get(tag)

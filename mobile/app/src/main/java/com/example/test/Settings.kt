@@ -9,10 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 
 class Settings : Fragment() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    private val jsonTools = JSONTools()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,10 +26,9 @@ class Settings : Fragment() {
     }
 
     private fun disconnectUser() {
-        val jsonTools = JSONTools()
         jsonTools.emptyUserJson(requireContext())
 
-        val intent = Intent(activity, MainActivity2::class.java)
+        val intent = Intent(activity, Login::class.java)
         startActivity(intent)
         activity?.finish()
     }

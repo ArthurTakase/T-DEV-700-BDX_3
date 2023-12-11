@@ -67,9 +67,7 @@ class JSONTools() {
         writeCartJson(context, cart)
     }
 
-    data class User(val email: String, val server: String)
-
-    public fun readUserJson(context: Context): User {
+    fun readUserJson(context: Context): User {
         val gson = Gson()
         val userFile = File(context.filesDir, "user.json")
 

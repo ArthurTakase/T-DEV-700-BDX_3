@@ -6,15 +6,14 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
-import com.example.test.MainActivity
 
-class MainActivity2 : AppCompatActivity() {
+class Login : AppCompatActivity() {
 
     private lateinit var jsonTools: JSONTools
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main2)
+        setContentView(R.layout.activity_login)
 
         jsonTools = JSONTools()
 

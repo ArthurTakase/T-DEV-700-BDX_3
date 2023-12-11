@@ -22,7 +22,7 @@ class Pay : AppCompatActivity() {
 
         cash = json.readCashJson(this)
 
-        val isOK = false // remplacer par la requête
+        val isOK = true // remplacer par la requête
 
         if (isOK) {
             json.emptyCartJson(this)

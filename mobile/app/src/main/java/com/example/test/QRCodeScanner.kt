@@ -16,6 +16,7 @@ import com.budiyev.android.codescanner.ErrorCallback
 import com.budiyev.android.codescanner.ScanMode
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import org.json.JSONObject
 
 private const val CAMERA_REQUEST_CODE = 101
 
@@ -42,10 +43,19 @@ class QRCodeScanner : AppCompatActivity() {
         super.onPause()
     }
 
-    private fun extractCash(json: String): Cash {
-        val gson = Gson()
-        val cashType = object : TypeToken<Cash>() {}.type
-        return gson.fromJson(json, cashType)
+    private fun extractCash(jsonString: String): Cash {
+        Log.d("Requests", jsonString)
+        try {
+            val json = JSONObject(jsonString)
+            val accountNumber = json.getString("account_number")
+            val accountName = json.getString("account_name")
+            val amount = json.getString("amount").toFloat()
+
+            return Cash(accountNumber, accountName, amount)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return Cash("", "", null)
+        }
     }
 
     private fun codeScanner() {

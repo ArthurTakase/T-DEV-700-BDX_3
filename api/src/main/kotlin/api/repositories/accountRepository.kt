@@ -10,7 +10,7 @@ class AccountRepository(database: Database) {
     }
 
     fun getByNumber(number: String): Account? {
-        val result = database.execQuery("SELECT * FROM ACCOUNTS WHERE number=$number").get()
+        val result = database.execQuery("SELECT * FROM ACCOUNTS WHERE number='$number'").get()
         val account = result.rows.map { row -> AccountParser(row).parse() }.firstOrNull()
         return account
     }
@@ -27,7 +27,7 @@ class AccountRepository(database: Database) {
         number: String,
         amount: Double,
     ) {
-        val sold = database.execQuery("SELECT sold FROM ACCOUNTS WHERE number=$number").get().rows[0].get("sold") as Double
+        val sold = database.execQuery("SELECT sold FROM ACCOUNTS WHERE number='$number'").get().rows[0].get("sold") as Double
         updateByNumber(number, (sold - amount))
     }
 
@@ -47,7 +47,7 @@ class AccountRepository(database: Database) {
         newSold: Double,
     ): Account {
         val result =
-            database.execQuery("UPDATE ACCOUNTS SET sold=$newSold WHERE number=$number RETURNING *")
+            database.execQuery("UPDATE ACCOUNTS SET sold=$newSold WHERE number='$number' RETURNING *")
                 .get()
         val account = result.rows.map { row -> AccountParser(row).parse() }.first()
         return account

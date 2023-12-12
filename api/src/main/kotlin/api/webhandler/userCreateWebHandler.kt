@@ -1,7 +1,7 @@
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import io.javalin.http.Context
 
-data class UserForm(val email: String, val name: String)
+data class UserForm(val email: String? = null, val name: String? = null, val password: String? = null)
 
 class UserCreateWebHandler(val userRepository: UserRepository) : WebHandler() {
     override fun call(ctx: Context) {
@@ -11,11 +11,12 @@ class UserCreateWebHandler(val userRepository: UserRepository) : WebHandler() {
 
         val name = userData.name
         val email = userData.email
+        val password = userData.email
 
-        if (name.isNullOrEmpty() || email.isNullOrEmpty()) {
+        if (name.isNullOrEmpty() || email.isNullOrEmpty() || password.isNullOrEmpty()) {
             ctx.status(400).json("Missing data")
         } else {
-            val user = userRepository.create(name, email)
+            val user = userRepository.create(name, email, password)
 
             if (user != null) {
                 ctx.status(201).json(user)

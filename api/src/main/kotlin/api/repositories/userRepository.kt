@@ -1,5 +1,3 @@
-
-
 class UserRepository(database: Database) {
     private val database = database
 
@@ -7,10 +5,7 @@ class UserRepository(database: Database) {
 
     fun all(): List<User> {
         val result = database.execQuery("SELECT * FROM USERS").get()
-        val users =
-            result.rows.map { row ->
-                UserParser(row).parse()
-            }
+        val users = result.rows.map { row -> UserParser(row).parse() }
         println(users)
         return users
     }
@@ -18,9 +13,11 @@ class UserRepository(database: Database) {
     fun create(
         name: String,
         email: String,
+        password: String,
     ): User? {
-        val query = "INSERT INTO users (name, email) VALUES (?, ?) RETURNING *"
-        val args = listOf(name, email)
+        val passwordHashed = sha256(password)
+        val query = "INSERT INTO users (name, email, password) VALUES (?, ?, ?) RETURNING *"
+        val args = listOf(name, email, passwordHashed)
 
         val result = database.execQuery(query, args).get()
 
@@ -28,10 +25,7 @@ class UserRepository(database: Database) {
             return null
         }
 
-        val user =
-            result.rows.map { row ->
-                UserParser(row).parse()
-            }.firstOrNull()
+        val user = result.rows.map { row -> UserParser(row).parse() }.firstOrNull()
         return user
     }
 
@@ -40,4 +34,19 @@ class UserRepository(database: Database) {
     fun update() {}
 
     fun delete() {}
+
+    private fun sha256(input: String): String {
+        val message = input.toByteArray()
+        val digest = java.security.MessageDigest.getInstance("SHA-256").digest(message)
+
+        // Convertir le tableau d'octets en une représentation hexadécimale
+        val hexChars = CharArray(digest.size * 2)
+        for (i in digest.indices) {
+            val v = digest[i].toInt() and 0xFF
+            hexChars[i * 2] = "0123456789ABCDEF"[v ushr 4]
+            hexChars[i * 2 + 1] = "0123456789ABCDEF"[v and 0x0F]
+        }
+
+        return String(hexChars)
+    }
 }

@@ -3,11 +3,10 @@ version: "3.8"
 services:
   mobile_client:
     container_name: mobile_container
+    platform: linux/amd64
     build:
       context: ./mobile
       dockerfile: Dockerfile
-    volumes:
-      - .:/app
     ports:
       - "3000:3000"
     depends_on:

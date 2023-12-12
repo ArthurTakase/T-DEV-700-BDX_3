@@ -5,7 +5,7 @@ class Initializer() {
     public var accountRepository = AccountRepository(database)
     public var userIndexWebHandler = UserIndexWebHandler(userRepository)
     public var userCreateWebHandler = UserCreateWebHandler(userRepository)
-    public var accountHasMoneyWebHandler = AccountHasMoneyWebHandler(accountRepository)
+    public var accountPurchaseWebHandler = AccountPurchaseWebHandler(accountRepository)
 
     init {
         val migrationUsers = MigrationUsers(database)

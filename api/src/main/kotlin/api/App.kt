@@ -5,14 +5,17 @@ package cashmanager.main
 
 import Initializer
 import io.javalin.Javalin
+import io.javalin.apibuilder.ApiBuilder.*;
 
 fun main() {
     val init = Initializer()
-    val app = Javalin.create().start(8080)
-
-    app.routes {
-        app.get("/users") { ctx -> init.userIndexWebHandler.exec(ctx) }
-        app.post("/users") { ctx -> init.userCreateWebHandler.exec(ctx) }
-        app.post("/purchase/{number}") { ctx -> init.accountPurchaseWebHandler.exec(ctx) }
-    }
+    Javalin.create().routes {
+        path("users") {
+            get { ctx -> init.userIndexWebHandler.exec(ctx) }
+            post { ctx -> init.userCreateWebHandler.exec(ctx) }
+        }
+        path("/purchase/{number}") {
+            get { ctx -> init.accountPurchaseWebHandler.exec(ctx) }
+        }
+    }.start(8080)
 }

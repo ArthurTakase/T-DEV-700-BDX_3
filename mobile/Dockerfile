@@ -45,9 +45,5 @@ RUN ./gradlew clean
 # Exécuter le script Gradle
 RUN ./gradlew build
 
-RUN mkdir /test_apk
-
 # Construire l'application
 RUN ./gradlew assembleRelease
-
-RUN cp app/build/outputs/apk/release/*.apk /test_apk/

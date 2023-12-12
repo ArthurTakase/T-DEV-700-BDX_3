@@ -5,10 +5,8 @@ import android.app.PendingIntent
 import android.content.Intent
 import android.content.IntentFilter
 import android.nfc.NfcAdapter
-import android.nfc.Tag
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Parcelable
 import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
@@ -20,7 +18,6 @@ class NFC : AppCompatActivity() {
     private var pendingIntent: PendingIntent? = null
     private var writingTagFilters: Array<IntentFilter>? = null
     private var writeMode: Boolean = false
-    private var myTag: Tag? = null
     private var nfcTools: NFCTools = NFCTools()
     private var json: JSONTools = JSONTools()
 
@@ -57,12 +54,10 @@ class NFC : AppCompatActivity() {
 
             // get memory information from the intent
             intent.getByteArrayExtra(NfcAdapter.EXTRA_ID).toString()
-            Toast.makeText(this, "NFC intent received", Toast.LENGTH_LONG).show()
 
             val byteArrayExtra = intent.getByteArrayExtra(NfcAdapter.EXTRA_ID)
             jsonTextFront!!.text = "NFC Tag: " + nfcTools.byteArrayToHexString(byteArrayExtra)
 
-            val tagN: Parcelable? = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG)
             try {
                 val data: Cash = nfcTools.extractDataMemory(intent)
                 val cart = json.readCartJson(this)
@@ -70,9 +65,9 @@ class NFC : AppCompatActivity() {
                 data.amount = total
                 json.addCashJson(this, data)
                 startActivity(Intent(this, Pay::class.java))
+                finish()
             } catch (e: Exception) {
-                Log.d("NFC", "readFromIntent: $e")
-                jsonTextFront!!.text = "Cannot read NFC tag"
+                Toast.makeText(this, "Cannot read NFC tag", Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -81,9 +76,6 @@ class NFC : AppCompatActivity() {
         super.onNewIntent(intent)
         setIntent(intent)
         readFromIntent(intent)
-        if (NfcAdapter.ACTION_TAG_DISCOVERED == intent.action) {
-            myTag = intent.getParcelableExtra("android.nfc.extra.TAG")
-        }
     }
 
     override fun onPause() {
@@ -104,5 +96,12 @@ class NFC : AppCompatActivity() {
     private fun writeModeOff() {
         writeMode = false
         nfcAdapter?.disableForegroundDispatch(this)
+    }
+
+    @SuppressLint("MissingSuperCall")
+    @Deprecated("Deprecated in Java")
+    override fun onBackPressed() {
+        startActivity(Intent(this, MainActivity::class.java))
+        finish()
     }
 }

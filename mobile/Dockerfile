@@ -6,7 +6,7 @@ RUN apt-get update && apt-get install -y \
     curl \
     unzip \
     git \
-    openjdk-17-jdk
+    openjdk-19-jdk
 
 # Vérifier l'installation de Java et afficher l'emplacement
 RUN java -version
@@ -31,11 +31,23 @@ RUN export JAVA_HOME=$(dirname $(dirname $(update-alternatives --list java))) \
 # Copier le projet dans le conteneur
 COPY . /app
 
+COPY /app/keystore.jks /app/keystore.jks
+
 # Définir le répertoire de travail
 WORKDIR /app
 
 # Donner les droits d'exécution au script Gradle
 RUN chmod +x ./gradlew
 
+# Nettoyer le projet
+RUN ./gradlew clean
+
+# Exécuter le script Gradle
+RUN ./gradlew build
+
+RUN mkdir /test_apk
+
 # Construire l'application
-RUN ./gradlew assemble
+RUN ./gradlew assembleRelease
+
+RUN cp app/build/outputs/apk/release/*.apk /test_apk/

@@ -1,7 +1,7 @@
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import io.javalin.http.Context
 
-class AccountHasMoneyWebHandler(val accountRepository: AccountRepository) : WebHandler() {
+class AccountPurchaseWebHandler(val accountRepository: AccountRepository) : WebHandler() {
     override fun call(ctx: Context) {
         val number: String = ctx.pathParam("number")
         val objectMapper = jacksonObjectMapper()

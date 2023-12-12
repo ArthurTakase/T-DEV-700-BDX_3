@@ -52,7 +52,7 @@ class Requests(context: Context) {
             }
         """.trimIndent()
 
-        api.post("$url/hasmoney/${cash.accountNumber}", postData,
+        api.post("$url/purchase/${cash.accountNumber}", postData,
             onSuccess = { response ->
                 Log.d("Requests", "SUCCESS" + response)
             },

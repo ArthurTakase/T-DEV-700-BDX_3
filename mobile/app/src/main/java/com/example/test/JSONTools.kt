@@ -9,7 +9,7 @@ import java.io.InputStream
 import java.io.InputStreamReader
 import java.io.OutputStream
 
-class JSONTools() {
+class JSONTools {
     fun readProductsJson(inputStream: InputStream): Array<Product> {
         val json = InputStreamReader(inputStream).readText()
         val gson = Gson()
@@ -144,7 +144,6 @@ class JSONTools() {
     }
 
     fun emptyCashJson(context: Context) {
-        val cash = readCashJson(context)
         writeCashJson(context, Cash("", "", null))
     }
 }

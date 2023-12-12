@@ -3,7 +3,6 @@ package com.example.test
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -85,6 +84,7 @@ class Cart : Fragment() {
             if (totalCartPrice() <= 0) return@setOnClickListener
             val intent = Intent(context, NFC::class.java)
             startActivity(intent)
+            activity?.finish()
         }
 
         val qr = view?.findViewById<TextView>(R.id.qr_btn)
@@ -92,6 +92,7 @@ class Cart : Fragment() {
             if (totalCartPrice() <= 0) return@setOnClickListener
             val intent = Intent(context, QRCodeScanner::class.java)
             startActivity(intent)
+            activity?.finish()
         }
 
         return view

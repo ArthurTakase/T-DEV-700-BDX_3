@@ -2,7 +2,6 @@ package com.example.test
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.net.HttpURLConnection
@@ -78,9 +77,5 @@ class API {
                 }
             }
         }
-    }
-
-    fun cancel() {
-        coroutineScope.cancel()
     }
 }

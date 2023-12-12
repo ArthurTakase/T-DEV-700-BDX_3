@@ -5,11 +5,15 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import android.os.Handler
+import android.os.Looper
 
 class Login : AppCompatActivity() {
 
     private lateinit var jsonTools: JSONTools
+    private var backPressedCount = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +44,21 @@ class Login : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onBackPressed() {
+        if (backPressedCount == 1) {
+            super.onBackPressed()
+            return
+        }
+
+        backPressedCount++
+        Toast.makeText(this, "Press back again to exit", Toast.LENGTH_SHORT).show()
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            backPressedCount = 0
+        }, 2000)
     }
 }
 

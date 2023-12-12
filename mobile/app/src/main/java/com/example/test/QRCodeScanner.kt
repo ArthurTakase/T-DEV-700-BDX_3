@@ -1,11 +1,13 @@
 package com.example.test
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.budiyev.android.codescanner.AutoFocusMode
@@ -14,8 +16,6 @@ import com.budiyev.android.codescanner.CodeScannerView
 import com.budiyev.android.codescanner.DecodeCallback
 import com.budiyev.android.codescanner.ErrorCallback
 import com.budiyev.android.codescanner.ScanMode
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import org.json.JSONObject
 
 private const val CAMERA_REQUEST_CODE = 101
@@ -44,20 +44,20 @@ class QRCodeScanner : AppCompatActivity() {
     }
 
     private fun extractCash(jsonString: String): Cash {
-        Log.d("Requests", jsonString)
-        try {
+        return try {
             val json = JSONObject(jsonString)
             val accountNumber = json.getString("account_number")
             val accountName = json.getString("account_name")
             val amount = json.getString("amount").toFloat()
 
-            return Cash(accountNumber, accountName, amount)
+            Cash(accountNumber, accountName, amount)
         } catch (e: Exception) {
             e.printStackTrace()
-            return Cash("", "", null)
+            Cash("", "", null)
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun codeScanner() {
         val scannerView = findViewById<CodeScannerView>(R.id.scanner_view)
         codeScanner = CodeScanner(this, scannerView)
@@ -70,10 +70,21 @@ class QRCodeScanner : AppCompatActivity() {
 
         codeScanner.decodeCallback = DecodeCallback {
             runOnUiThread {
-                // find in view scan_text
-                val text = findViewById<TextView>(R.id.scan_text)
-                json.addCashJson(this, extractCash(it.text))
+                val cash = extractCash(it.text)
+                val totalCart = json.readCartJson(this)
+                val total = totalCart.sumOf { it.getTotalPrice() }.toFloat()
+
+                if (cash.amount == null || cash.amount!! < total) {
+                    Toast.makeText(this, "The check amount is insufficient", Toast.LENGTH_LONG).show()
+                    finish()
+                    return@runOnUiThread
+                }
+
+                if (cash.amount!! < total) cash.amount = total
+
+                json.addCashJson(this, cash)
                 startActivity(Intent(this, Pay::class.java))
+                finish()
             }
         }
 
@@ -112,5 +123,12 @@ class QRCodeScanner : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    @SuppressLint("MissingSuperCall")
+    @Deprecated("Deprecated in Java")
+    override fun onBackPressed() {
+        startActivity(Intent(this, MainActivity::class.java))
+        finish()
     }
 }

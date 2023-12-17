@@ -91,6 +91,10 @@ class JSONTools {
         context.openFileOutput("user.json", Context.MODE_PRIVATE).use { it.write(userJson.toByteArray()) }
     }
 
+    fun addUser(context: Context, user: User) {
+        writeUserJson(context, user)
+    }
+
     fun addUserEmail(context: Context, email: String) {
         val user = readUserJson(context)
         val updatedUser = user.copy(email = email)

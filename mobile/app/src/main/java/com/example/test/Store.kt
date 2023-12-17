@@ -1,7 +1,10 @@
 package com.example.test
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,6 +39,7 @@ class Store : Fragment() {
 
                 findViewById<Button>(R.id.product_price).setOnClickListener {
                     json.addProductToCart(requireContext(), product)
+                    vibrate()
                 }
 
                 mainLayout.addView(this)
@@ -43,5 +47,10 @@ class Store : Fragment() {
         }
 
         return view
+    }
+
+    private fun vibrate() {
+        val vibrator = context?.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        vibrator.vibrate(VibrationEffect.createOneShot(100, 30))
     }
 }

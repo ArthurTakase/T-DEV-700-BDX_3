@@ -1,8 +1,11 @@
 package com.example.test
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,6 +49,7 @@ class Cart : Fragment() {
         view.findViewById<Button>(R.id.delete_button).setOnClickListener {
             json.removeProductFromCart(requireContext(), product.product)
             layout?.removeView(view)
+            vibrate()
             onResume()
         }
 
@@ -78,6 +82,7 @@ class Cart : Fragment() {
         nfc?.setOnClickListener {
             if (totalCartPrice() <= 0) return@setOnClickListener
             val intent = Intent(context, NFC::class.java)
+            vibrate()
             startActivity(intent)
             activity?.finish()
         }
@@ -86,10 +91,16 @@ class Cart : Fragment() {
         qr?.setOnClickListener {
             if (totalCartPrice() <= 0) return@setOnClickListener
             val intent = Intent(context, QRCodeScanner::class.java)
+            vibrate()
             startActivity(intent)
             activity?.finish()
         }
 
         return view
+    }
+
+    private fun vibrate() {
+        val vibrator = context?.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        vibrator.vibrate(VibrationEffect.createOneShot(100, 30))
     }
 }

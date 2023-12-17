@@ -29,7 +29,7 @@ class Store : Fragment() {
         products.forEach { product ->
             inflater.inflate(R.layout.product_card, mainLayout, false).apply {
                 findViewById<TextView>(R.id.product_name).text = product.name
-                findViewById<TextView>(R.id.product_price).text = "\uD83D\uDED2 $${product.price}"
+                findViewById<TextView>(R.id.product_price).text = "\uD83D\uDED2 $${product.price / 100.0f}"
                 findViewById<TextView>(R.id.product_description).text = product.description
                 val imageResId = resources.getIdentifier(product.image, "drawable", requireActivity().packageName)
                 findViewById<ImageView>(R.id.product_image).setImageResource(imageResId)

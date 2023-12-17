@@ -20,6 +20,8 @@ class Settings : Fragment() {
         val buttonDisconnect = view.findViewById<Button>(R.id.button_disconnect)
         buttonDisconnect.setOnClickListener {
             disconnectUser()
+            // launch vibration
+
         }
 
         return view

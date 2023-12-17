@@ -1,7 +1,7 @@
 package com.example.test
 
 class CartProduct(var product: Product, var quantity: Int) {
-    fun getTotalPrice(): Float {
+    fun getTotalPrice(): Int {
         return product.price * quantity
     }
 }

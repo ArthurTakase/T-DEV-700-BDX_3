@@ -72,7 +72,8 @@ class QRCodeScanner : AppCompatActivity() {
             runOnUiThread {
                 val cash = extractCash(it.text)
                 val totalCart = json.readCartJson(this)
-                val total = totalCart.sumOf { it.getTotalPrice() }.toFloat()
+                var total = 0.0f
+                totalCart.forEach { product -> total += product.getTotalPrice() }
 
                 if (cash.amount == null || cash.amount!! < total) {
                     Toast.makeText(this, "The check amount is insufficient", Toast.LENGTH_LONG).show()

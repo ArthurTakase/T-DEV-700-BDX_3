@@ -52,9 +52,9 @@ class Cart : Fragment() {
         layout?.addView(view)
     }
 
-    private  fun totalCartPrice(): Int {
+    private  fun totalCartPrice(): Float {
         val cart = json.readCartJson(requireContext())
-        var total = 0
+        var total = 0.0f
         cart.forEach { product ->
             total += product.getTotalPrice()
         }

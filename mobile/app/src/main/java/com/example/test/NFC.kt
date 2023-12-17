@@ -61,7 +61,8 @@ class NFC : AppCompatActivity() {
             try {
                 val data: Cash = nfcTools.extractDataMemory(intent)
                 val cart = json.readCartJson(this)
-                val total: Float = cart.sumOf { it.getTotalPrice() }.toFloat()
+                var total = 0.0f
+                cart.forEach { product -> total += product.getTotalPrice() }
                 data.amount = total
                 json.addCashJson(this, data)
                 startActivity(Intent(this, Pay::class.java))

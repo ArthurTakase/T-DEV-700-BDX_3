@@ -72,15 +72,16 @@ class QRCodeScanner : AppCompatActivity() {
             runOnUiThread {
                 val cash = extractCash(it.text)
                 val totalCart = json.readCartJson(this)
-                val total = totalCart.sumOf { it.getTotalPrice() }.toFloat()
+                val total = totalCart.sumOf { product -> product.getTotalPrice() }
 
-                if (cash.amount == null || cash.amount!! < total) {
+                if (cash.amount == null || cash.amount!! < total / 100.0f) {
                     Toast.makeText(this, "The check amount is insufficient", Toast.LENGTH_LONG).show()
+                    startActivity(Intent(this, MainActivity::class.java))
                     finish()
                     return@runOnUiThread
                 }
 
-                if (cash.amount!! < total) cash.amount = total
+                if (cash.amount!! < total) cash.amount = total / 100.0f
 
                 json.addCashJson(this, cash)
                 startActivity(Intent(this, Pay::class.java))

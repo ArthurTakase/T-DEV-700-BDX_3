@@ -1,3 +1,3 @@
 package com.example.test
 
-data class User(val email: String, val server: String)
+data class User(val email: String, val server: String, val password: String = "")

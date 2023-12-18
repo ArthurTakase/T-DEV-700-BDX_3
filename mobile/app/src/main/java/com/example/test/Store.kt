@@ -1,7 +1,10 @@
 package com.example.test
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,13 +32,14 @@ class Store : Fragment() {
         products.forEach { product ->
             inflater.inflate(R.layout.product_card, mainLayout, false).apply {
                 findViewById<TextView>(R.id.product_name).text = product.name
-                findViewById<TextView>(R.id.product_price).text = "\uD83D\uDED2 $${product.price}"
+                findViewById<TextView>(R.id.product_price).text = "\uD83D\uDED2 $${product.price / 100.0f}"
                 findViewById<TextView>(R.id.product_description).text = product.description
                 val imageResId = resources.getIdentifier(product.image, "drawable", requireActivity().packageName)
                 findViewById<ImageView>(R.id.product_image).setImageResource(imageResId)
 
                 findViewById<Button>(R.id.product_price).setOnClickListener {
                     json.addProductToCart(requireContext(), product)
+                    vibrate()
                 }
 
                 mainLayout.addView(this)
@@ -43,5 +47,10 @@ class Store : Fragment() {
         }
 
         return view
+    }
+
+    private fun vibrate() {
+        val vibrator = context?.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        vibrator.vibrate(VibrationEffect.createOneShot(100, 30))
     }
 }

@@ -19,7 +19,6 @@
         android:background="@drawable/radius"
         android:scaleType="centerCrop"
         android:backgroundTint="#C3C3C3"
-        android:src="@drawable/theau"
         android:id="@+id/product_image"
         android:contentDescription="ProductPicture"
         tools:ignore="HardcodedText" />

@@ -36,7 +36,7 @@ class Pay : AppCompatActivity() {
         requestSend = true
 
 
-        API().post("${requests?.url}/hasmoney/${cash.accountNumber}", postData,
+        API().post("${requests?.url}/purchase/${cash.accountNumber}", postData,
             onSuccess = { response ->
                 Log.d("Requests", response)
 

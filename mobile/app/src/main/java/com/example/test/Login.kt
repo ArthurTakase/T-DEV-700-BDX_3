@@ -9,6 +9,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Handler
 import android.os.Looper
+import android.os.VibrationEffect
+import android.os.Vibrator
 
 class Login : AppCompatActivity() {
 
@@ -35,10 +37,8 @@ class Login : AppCompatActivity() {
             val email = emailEditText.text.toString()
             val password = passwordEditText.text.toString()
 
-            Log.d("MainActivity2", "Server: $server, Email: $email, Password: $password")
-
-            jsonTools.addUserEmail(this, email)
-            jsonTools.addUserServer(this, server)
+            jsonTools.addUser(this, User(email, server, password))
+            vibrate()
 
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
@@ -59,6 +59,11 @@ class Login : AppCompatActivity() {
         Handler(Looper.getMainLooper()).postDelayed({
             backPressedCount = 0
         }, 2000)
+    }
+
+    private fun vibrate() {
+        val vibrator = this.getSystemService(VIBRATOR_SERVICE) as Vibrator
+        vibrator.vibrate(VibrationEffect.createOneShot(100, 30))
     }
 }
 

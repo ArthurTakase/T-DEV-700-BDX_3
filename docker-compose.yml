@@ -1,16 +1,16 @@
 version: "3.8"
 
 services:
-  # mobile_client:
-  #   container_name: mobile_container
-  #   platform: linux/amd64
-  #   build:
-  #     context: ./mobile
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - "3000:3000"
-  #   depends_on:
-  #     - api_client
+  mobile_client:
+    container_name: mobile_container
+    platform: linux/amd64
+    build:
+      context: ./mobile
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api_client
 
   api_client:
     container_name: api_container

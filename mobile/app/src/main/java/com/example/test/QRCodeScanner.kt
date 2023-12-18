@@ -48,7 +48,7 @@ class QRCodeScanner : AppCompatActivity() {
             val json = JSONObject(jsonString)
             val accountNumber = json.getString("account_number")
             val accountName = json.getString("account_name")
-            val amount = json.getString("amount").toFloat()
+            val amount = json.getString("amount").toDouble()
 
             Cash(accountNumber, accountName, amount)
         } catch (e: Exception) {
@@ -81,7 +81,7 @@ class QRCodeScanner : AppCompatActivity() {
                     return@runOnUiThread
                 }
 
-                if (cash.amount!! < total) cash.amount = total / 100.0f
+                if (cash.amount!! < total) cash.amount = (total / 100.0f).toDouble()
 
                 json.addCashJson(this, cash)
                 startActivity(Intent(this, Pay::class.java))

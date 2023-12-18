@@ -1,4 +1,4 @@
-name: Android Build
+name: Android Build and Release
 
 on:
   push:
@@ -17,10 +17,19 @@ jobs:
       uses: actions/setup-java@v2
       with:
         distribution: 'adopt'
-        java-version: '19'
+        java-version: '11'
 
     - name: Build Android APK
+      id: build
       working-directory: mobile/
       run: |
         chmod +x ./gradlew
         ./gradlew assembleRelease
+
+    - name: Create Release
+      id: create_release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: mobile/app/build/outputs/apk/release/app-release.apk
+      env:
+        GITHUB_TOKEN: ${{ secrets.GIT_SSH_PRIVATE_KEY }}

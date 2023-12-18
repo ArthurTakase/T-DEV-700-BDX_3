@@ -34,9 +34,13 @@ class Pay : AppCompatActivity() {
             return
 
         requestSend = true
+        val token = json.getUserToken(this)
+        val headers: MutableMap<String, String> = mutableMapOf()
+        headers["Authorization"] = "Bearer $token"
 
-
-        API().post("${requests?.url}/purchase/${cash.accountNumber}", postData,
+        API().post("${requests?.url}/purchase/${cash.accountNumber}",
+            headers = headers,
+            postData = postData,
             onSuccess = { response ->
                 Log.d("Requests", response)
 

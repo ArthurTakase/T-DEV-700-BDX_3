@@ -30,9 +30,8 @@ jobs:
       run: |
         git tag -a v1.0.0 -m "Release version 1.0.0"
         git push origin v1.0.0
-      
-    - name: Push Tag
-      run: git push origin v1.0.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.APK_TOKEN }}
 
     - name: Create Release
       id: create_release
@@ -40,4 +39,4 @@ jobs:
       with:
         files: mobile/app/build/outputs/apk/release/app-release.apk
       env:
-        GITHUB_TOKEN: ${{ secrets.GIT_SSH_PRIVATE_KEY }}
+        GITHUB_TOKEN: ${{ secrets.APK_TOKEN }}

@@ -40,7 +40,6 @@ class UserRepository(database: Database) {
         val message = input.toByteArray()
         val digest = java.security.MessageDigest.getInstance("SHA-256").digest(message)
 
-        // Convertir le tableau d'octets en une représentation hexadécimale
         val hexChars = CharArray(digest.size * 2)
         for (i in digest.indices) {
             val v = digest[i].toInt() and 0xFF

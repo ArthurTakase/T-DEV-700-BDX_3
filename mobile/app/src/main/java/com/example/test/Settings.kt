@@ -10,9 +10,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 
 class Settings : Fragment() {
     private val jsonTools = JSONTools()
+    private var serverURL: TextView? = null
+    private var email: TextView? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,6 +28,12 @@ class Settings : Fragment() {
             disconnectUser()
             vibrate()
         }
+
+        val user: User = jsonTools.readUserJson(requireContext())
+        serverURL = view.findViewById(R.id.server_url)
+        serverURL?.text = user.server
+        email = view.findViewById(R.id.user_mail)
+        email?.text = user.email
 
         return view
     }

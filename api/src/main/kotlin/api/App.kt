@@ -15,7 +15,7 @@ fun main() {
             post { ctx -> init.userCreateWebHandler.exec(ctx) }
         }
         path("/purchase/{number}") {
-            get { ctx -> init.accountPurchaseWebHandler.exec(ctx) }
+            post { ctx -> init.accountPurchaseWebHandler.exec(ctx) }
         }
     }.start(8080)
 }

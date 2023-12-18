@@ -13,11 +13,12 @@ class UserRepository(database: Database) {
     fun create(
         name: String,
         email: String,
+        last_key: String,
         password: String,
     ): User? {
         val passwordHashed = sha256(password)
-        val query = "INSERT INTO users (name, email, password) VALUES (?, ?, ?) RETURNING *"
-        val args = listOf(name, email, passwordHashed)
+        val query = "INSERT INTO users (name, email, last_key, password) VALUES (?, ?, ?, ?) RETURNING *"
+        val args = listOf(name, email, last_key, passwordHashed)
 
         val result = database.execQuery(query, args).get()
 

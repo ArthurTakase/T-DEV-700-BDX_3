@@ -14,6 +14,9 @@ fun main() {
         path("users") {
             get { ctx -> init.userIndexWebHandler.exec(ctx) }
             post { ctx -> init.userCreateWebHandler.exec(ctx) }
+            path("connect") {
+                post { ctx -> init.userConnectWebHandler.exec(ctx) }
+            }
         }
         path("/purchase/{number}") {
             post { ctx -> init.accountPurchaseWebHandler.exec(ctx) }

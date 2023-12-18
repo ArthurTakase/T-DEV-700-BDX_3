@@ -26,6 +26,14 @@ jobs:
         chmod +x ./gradlew
         ./gradlew assembleRelease
 
+    - name: Create Tag
+      run: |
+        git tag -a v1.0.0 -m "Release version 1.0.0"
+        git push origin v1.0.0
+      
+    - name: Push Tag
+      run: git push origin v1.0.0
+
     - name: Create Release
       id: create_release
       uses: softprops/action-gh-release@v1

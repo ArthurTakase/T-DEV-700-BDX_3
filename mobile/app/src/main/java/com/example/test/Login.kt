@@ -16,6 +16,10 @@ class Login : AppCompatActivity() {
 
     private lateinit var jsonTools: JSONTools
     private var backPressedCount = 0
+    private var serverEditText: EditText? = null
+    private var emailEditText: EditText? = null
+    private var passwordEditText: EditText? = null
+    private var connectButton: Button? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,26 +27,17 @@ class Login : AppCompatActivity() {
 
         jsonTools = JSONTools()
 
-        val serverEditText = findViewById<EditText>(R.id.edit_server_address)
-        val emailEditText = findViewById<EditText>(R.id.edit_email_address)
-        val passwordEditText = findViewById<EditText>(R.id.edit_password_address)
-        val connectButton = findViewById<Button>(R.id.button_connect)
+        serverEditText = findViewById<EditText>(R.id.edit_server_address)
+        emailEditText = findViewById<EditText>(R.id.edit_email_address)
+        passwordEditText = findViewById<EditText>(R.id.edit_password_address)
+        connectButton = findViewById<Button>(R.id.button_connect)
 
         val user = jsonTools.readUserJson(this)
-        serverEditText.setText(user.server)
-        emailEditText.setText(user.email)
+        serverEditText?.setText(user.server)
+        emailEditText?.setText(user.email)
 
-        connectButton.setOnClickListener {
-            val server = serverEditText.text.toString()
-            val email = emailEditText.text.toString()
-            val password = passwordEditText.text.toString()
-
-            jsonTools.addUser(this, User(email, server, password))
-            vibrate()
-
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            finish()
+        connectButton?.setOnClickListener {
+            login()
         }
     }
 
@@ -64,6 +59,34 @@ class Login : AppCompatActivity() {
     private fun vibrate() {
         val vibrator = this.getSystemService(VIBRATOR_SERVICE) as Vibrator
         vibrator.vibrate(VibrationEffect.createOneShot(100, 30))
+    }
+
+    private fun login()
+    {
+        var server = serverEditText?.text.toString()
+        val email = emailEditText?.text.toString()
+        val password = passwordEditText?.text.toString()
+
+        if (!server.startsWith("http://"))
+            server = "http://$server"
+        else if (server.startsWith("https://"))
+            server = server.replace("https://", "http://")
+
+        val postData = """{"email": "$email", "password": "$password"}""".trimIndent()
+
+        API().post("${server}/users/connect", postData,
+            onSuccess = { response ->
+                Log.d("Requests", response)
+                jsonTools.addUser(this, User(email, server, password, response))
+                vibrate()
+                startActivity(Intent(this, MainActivity::class.java))
+                finish()
+            },
+            onError = { error ->
+                Log.d("Requests", error.toString())
+                Toast.makeText(this, "Can't connect to database.", Toast.LENGTH_SHORT).show()
+            }
+        )
     }
 }
 

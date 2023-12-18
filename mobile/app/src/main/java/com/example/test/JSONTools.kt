@@ -95,16 +95,10 @@ class JSONTools {
         writeUserJson(context, user)
     }
 
-    fun addUserEmail(context: Context, email: String) {
+    fun getUserToken(context: Context): String {
         val user = readUserJson(context)
-        val updatedUser = user.copy(email = email)
-        writeUserJson(context, updatedUser)
-    }
-
-    fun addUserServer(context: Context, server: String) {
-        val user = readUserJson(context)
-        val updatedUser = user.copy(server = server)
-        writeUserJson(context, updatedUser)
+        if (user.token != null) return user.token
+        return ""
     }
 
     fun emptyUserJson(context: Context) {

@@ -28,6 +28,8 @@ jobs:
 
     - name: Create Tag
       run: |
+        git config user.email "arthur.decaen@epitech.eu"
+        git config user.name "Arthur"
         git tag -a v1.0.0 -m "Release version 1.0.0"
         git push origin v1.0.0
       env:

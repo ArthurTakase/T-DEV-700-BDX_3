@@ -8,37 +8,29 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-    - name: Set up JDK
-      uses: actions/setup-java@v2
-      with:
-        distribution: 'adopt'
-        java-version: '19'
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '19'
 
-    - name: Build Android APK
-      id: build
-      working-directory: mobile/
-      run: |
-        chmod +x ./gradlew
-        ./gradlew assembleRelease
+      - name: Build Android APK
+        id: build
+        working-directory: mobile/
+        run: |
+          chmod +x ./gradlew
+          ./gradlew assembleRelease
 
-    - name: Create Tag
-      run: |
-        git config user.email "arthur.decaen@epitech.eu"
-        git config user.name "Arthur"
-        git tag -a v1.0.0 -m "Release version 1.0.0"
-        git push origin v1.0.0
-      env:
-        GITHUB_TOKEN: ${{ secrets.APK_TOKEN }}
-
-    - name: Create Release
-      id: create_release
-      uses: softprops/action-gh-release@v1
-      with:
-        files: mobile/app/build/outputs/apk/release/app-release.apk
-      env:
-        GITHUB_TOKEN: ${{ secrets.APK_TOKEN }}
+      - name: Upload Build
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          files: mobile/app/build/outputs/apk/release/app-release.apk
+          overwrite: true

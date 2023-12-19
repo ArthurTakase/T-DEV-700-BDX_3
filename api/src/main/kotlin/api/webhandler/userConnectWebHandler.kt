@@ -4,8 +4,7 @@ import java.util.UUID
 
 data class UserConnection(val email: String, val password: String)
 
-class UserConnectWebHandler(userRepository: UserRepository) : WebHandler() {
-    val userRepository = userRepository
+class UserConnectWebHandler(val userRepository: UserRepository) : WebHandler() {
 
     override fun call(ctx: Context) {
         val lastKey = UUID.randomUUID().toString()

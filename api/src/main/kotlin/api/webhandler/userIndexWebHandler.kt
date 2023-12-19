@@ -1,7 +1,6 @@
 import io.javalin.http.Context
 
-class UserIndexWebHandler(userRepository: UserRepository) : WebHandler() {
-    val userRepository = userRepository
+class UserIndexWebHandler(val userRepository: UserRepository) : WebHandler() {
 
     override fun call(ctx: Context) {
         println(userRepository)

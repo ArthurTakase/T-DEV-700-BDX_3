@@ -1,8 +1,6 @@
 class UserRepository(database: Database) {
     private val database = database
 
-    init {}
-
     fun all(): List<User> {
         val result = database.execQuery("SELECT * FROM USERS").get()
         val users = result.rows.map { row -> UserParser(row).parse() }
@@ -68,8 +66,6 @@ class UserRepository(database: Database) {
         return user
     }
 
-    fun findById() {}
-
     fun update(
         id: Int,
         last_key: String,
@@ -80,8 +76,6 @@ class UserRepository(database: Database) {
 
         database.execQuery(query, args).get()
     }
-
-    fun delete() {}
 
     private fun sha256(input: String): String {
         val message = input.toByteArray()
@@ -97,6 +91,4 @@ class UserRepository(database: Database) {
         return String(hexChars)
     }
 
-    // TODO Implement
-    fun parseQuery() {}
 }

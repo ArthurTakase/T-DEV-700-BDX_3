@@ -40,6 +40,8 @@ class Settings : Fragment() {
 
     private fun disconnectUser() {
         jsonTools.emptyUserJson(requireContext())
+        jsonTools.emptyCartJson(requireContext())
+        jsonTools.emptyCashJson(requireContext())
 
         val intent = Intent(activity, Login::class.java)
         startActivity(intent)

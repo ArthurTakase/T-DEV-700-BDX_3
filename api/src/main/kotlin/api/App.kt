@@ -36,7 +36,7 @@ fun main() {
     }.routes {
         path("users") {
             get(init.userIndexWebHandler::handle, Role.READWRITE)
-            post(init.userCreateWebHandler::handle, Role.READWRITE)
+            post(init.userCreateWebHandler::handle, Role.ANYONE)
             path("connect") {
                 post(init.userConnectWebHandler::handle, Role.ANYONE)
             }

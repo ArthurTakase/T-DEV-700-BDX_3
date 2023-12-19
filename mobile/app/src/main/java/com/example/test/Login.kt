@@ -27,10 +27,10 @@ class Login : AppCompatActivity() {
 
         jsonTools = JSONTools()
 
-        serverEditText = findViewById<EditText>(R.id.edit_server_address)
-        emailEditText = findViewById<EditText>(R.id.edit_email_address)
-        passwordEditText = findViewById<EditText>(R.id.edit_password_address)
-        connectButton = findViewById<Button>(R.id.button_connect)
+        serverEditText = findViewById(R.id.edit_server_address)
+        emailEditText = findViewById(R.id.edit_email_address)
+        passwordEditText = findViewById(R.id.edit_password_address)
+        connectButton = findViewById(R.id.button_connect)
 
         val user = jsonTools.readUserJson(this)
         serverEditText?.setText(user.server)

@@ -15,6 +15,6 @@ class Initializer() {
         migrationUsers.exec()
         migrationAccounts.exec()
 
-        print("In initializer")
+        println("In initializer")
     }
 }

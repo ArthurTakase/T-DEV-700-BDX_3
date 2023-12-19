@@ -5,6 +5,6 @@ class MigrationAccounts(database: Database) {
         database.execQuery(
             "CREATE TABLE IF NOT EXISTS accounts (id SERIAL PRIMARY KEY, number VARCHAR(255) UNIQUE, sold FLOAT, created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(), updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW());",
         )
-        print("Migration accounts")
+        println("Migration accounts")
     }
 }

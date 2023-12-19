@@ -4,7 +4,7 @@ data class User(
     val id: Int,
     val name: String,
     val email: String,
-    val last_key: String,
+    val last_key: String?,
     val created_at: OffsetDateTime,
     val updated_at: OffsetDateTime,
 ) {

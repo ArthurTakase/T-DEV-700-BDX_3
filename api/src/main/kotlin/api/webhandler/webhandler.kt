@@ -1,7 +1,7 @@
 import io.javalin.http.Context
 
 abstract class WebHandler() {
-    fun exec(ctx: Context) {
+    fun handle(ctx: Context) {
         try {
             call(ctx)
         } catch (e: Exception) {

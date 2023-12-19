@@ -5,21 +5,44 @@ package cashmanager.main
 
 import Initializer
 import io.javalin.Javalin
-import io.javalin.apibuilder.ApiBuilder.*;
+import io.javalin.apibuilder.ApiBuilder.get
+import io.javalin.apibuilder.ApiBuilder.path
+import io.javalin.apibuilder.ApiBuilder.post
+import io.javalin.security.RouteRole
 
+enum class Role : RouteRole { ANYONE, READWRITE }
 
 fun main() {
     val init = Initializer()
-    Javalin.create().routes {
+    Javalin.create {
+        it.accessManager { handler, ctx, permittedRoles ->
+            if (permittedRoles.contains(Role.ANYONE)) {
+                handler.handle(ctx)
+            } else {
+                val key = ctx.header("Authorization")?.replace("Bearer ", "")
+                if (key == null) {
+                    ctx.status(401).json("Unauthorized")
+                } else {
+                    val currentUser = init.userRepository.findByLastKey(key)
+                    if (currentUser == null) {
+                        ctx.status(401).json("Unauthorized")
+                    } else {
+                        ctx.attribute("currentUserId", currentUser.id)
+                        handler.handle(ctx)
+                    }
+                }
+            }
+        }
+    }.routes {
         path("users") {
-            get { ctx -> init.userIndexWebHandler.exec(ctx) }
-            post { ctx -> init.userCreateWebHandler.exec(ctx) }
+            get(init.userIndexWebHandler::handle, Role.READWRITE)
+            post(init.userCreateWebHandler::handle, Role.READWRITE)
             path("connect") {
-                post { ctx -> init.userConnectWebHandler.exec(ctx) }
+                post(init.userConnectWebHandler::handle, Role.ANYONE)
             }
         }
         path("/purchase/{number}") {
-            post { ctx -> init.accountPurchaseWebHandler.exec(ctx) }
+            post(init.accountPurchaseWebHandler::handle, Role.READWRITE)
         }
     }.start(8080)
 }

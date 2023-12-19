@@ -13,12 +13,50 @@ class UserRepository(database: Database) {
     fun create(
         name: String,
         email: String,
-        last_key: String,
+        password: String,
+    ): User? {
+        println("Creating user")
+        val passwordHashed = sha256(password)
+        val query = "INSERT INTO users (name, email, password) VALUES (?, ?, ?) RETURNING *"
+        val args = listOf(name, email, passwordHashed)
+        println(password)
+        println(passwordHashed)
+
+        val result = database.execQuery(query, args).get()
+
+        if (result.rowsAffected.equals(0)) {
+            return null
+        }
+
+        val user = result.rows.map { row -> UserParser(row).parse() }.firstOrNull()
+        return user
+    }
+
+    fun findByLastKey(last_key: String): User? {
+        val query = "SELECT * FROM users WHERE last_key = ?"
+        val args = listOf(last_key)
+
+        val result = database.execQuery(query, args).get()
+
+        if (result.rowsAffected.equals(0)) {
+            return null
+        }
+
+        val user = result.rows.map { row -> UserParser(row).parse() }.firstOrNull()
+        return user
+    }
+
+    fun findByEmailAndPassword(
+        email: String,
         password: String,
     ): User? {
         val passwordHashed = sha256(password)
-        val query = "INSERT INTO users (name, email, last_key, password) VALUES (?, ?, ?, ?) RETURNING *"
-        val args = listOf(name, email, last_key, passwordHashed)
+        val query = "SELECT * FROM users WHERE email = ? AND password = ?"
+        val args = listOf(email, passwordHashed)
+
+        println(email)
+        print(password)
+        println(passwordHashed)
 
         val result = database.execQuery(query, args).get()
 
@@ -32,7 +70,16 @@ class UserRepository(database: Database) {
 
     fun findById() {}
 
-    fun update() {}
+    fun update(
+        id: Int,
+        last_key: String,
+    ) {
+        val query = "UPDATE users SET last_key = ? WHERE id = ?"
+        val idString = id.toString()
+        val args = listOf(last_key, idString)
+
+        database.execQuery(query, args).get()
+    }
 
     fun delete() {}
 
@@ -49,4 +96,7 @@ class UserRepository(database: Database) {
 
         return String(hexChars)
     }
+
+    // TODO Implement
+    fun parseQuery() {}
 }
